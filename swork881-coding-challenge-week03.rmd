@@ -1,7 +1,7 @@
 ---
 title: "week 03 coding challenge"
-author: "."
-date: ""
+author: "Stephen Omotayo Ololade."
+date: ""08/02/2022
 output: html_document
 ---
 
@@ -14,8 +14,9 @@ knitr::opts_chunk$set(echo = TRUE, warning = F, message = F)
 
 ```
 
-
+# load dataset
 ```{r load data}
+data.01 <-read_csv("Data/LHS_exercise_02042022.csv") 
 
 ```
 
@@ -30,6 +31,21 @@ Challenge 1: mutate new variables:
 - `ptsd_mean_rev` (reverse of the `ptsd_mean` variable; hint: 6- value)
 - `ptsd_mean_rev_std` (standardized value of `ptsd_mean`)
 - `audit_c` (participants who responded 1 or 2 ~ 1; else ~0)
+
+```{r}
+data02 <-data01%>%
+  mutate(ptsd_mean =rowMeans (across(ptsd1_1:ptsd4_1),
+                              na.rm = TRUE),
+         ptsd_mean_rev =6-ptsd_mean,
+         ptsd_mean_rev_std = scale(ptsd_mean_rev),
+         audit_c = case_when(audit1 <= 2~  1,
+                             TRUE ~0))
+
+         
+
+
+```
+
 
 For your reference: (pg 8 of the codebook)
 How often did you have a drink containing alcohol in the past year? 
