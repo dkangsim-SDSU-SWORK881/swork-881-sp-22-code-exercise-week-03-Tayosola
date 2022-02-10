@@ -55,34 +55,100 @@ How often did you have a drink containing alcohol in the past year?
 4. Monthly or less <- coded as '0'
 5. Never <- coded as '0'
 
-```{r data wrangling}
+   # data wrangling
+```{r}
+data03 <- data02%>%
+  select(age,education,sex,ptsd_mean, ptsd_mean_rev, ptsd_mean_rev_std,audit_c)
+
+data04 <- data03%>% 
+  select(age,education,sex, ptsd_mean_rev, ptsd_mean_rev_std,audit_c)
 
 ```
+
 
 
 #Now we will be running several logistic regression and compare the results:
 
 Run logistic regression using `ptsd_mean_rev` adjusting for age, sex, and education; use `tidy` function for output; exponent your results and interpret your result using odds ratio
-```{r logistic regression 1}
+```{r logistic regression 1
+
+```{r}
+
+data05 <- data04%>%
+  mutate(ptsd_mean_rev_bi =case_when(ptsd_mean_rev >=7 ~1,
+                                     TRUE ~0))
+ftable(data05$ptsd_mean_rev_bi)
+
+          
+
+```
+
+#let's fit logistic regression
+```{r}
+
+fit.1 <- glm (ptsd_mean_rev_bi ~ age+ factor(sex)+ factor(education),
+             family = binomial (link ="logit"),
+             data=data05) 
+  
+
+summary(fit.1)   
+
+#let's exponentiate
+
+coef(fit.1)
+
+exp(coef(fit.1))
+    
+  
+```
+#using tidy 
+```{r}
+
+tidy(fit.1, conf.int = T, exponentiate = TRUE)
+
+```
+
+
+
+
+
 
 ```
 
 Interpretation: 
-[ ]
+# all the respondents fall into depression risk
+## 
+
+```{r}
+# all the respondents fall into depression risk
+## 
+```
+
 
 Use `ggfortify`'s `autoplot` function to do model diagnostics
+```
 ```{r}
+autoplot(fit.1, 
+         which = 1:6,
+         ncol =2)
+
+```
+
 
 ```
 
 Explain diagnostic plots:
-[ ]
+[It contains only numeric valus ]
 
 
 
 Run logistic regression using `ptsd_mean_rev_std` adjusting for age, sex, and education; use `tidy` function for output; use `divide-by-four` approach and interpret your result using probability scale. 
 ```{r}
 
+
+  
+  
+  
 ```
 Interpretation
 [ ]
